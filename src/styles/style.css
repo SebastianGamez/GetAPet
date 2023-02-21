@@ -1,3 +1,122 @@
 [v-cloak]{
     display: none;
 }
+
+#id{
+    overflow-x: hidden;
+}
+
+.main-home{
+    background-image: url(../assets/images/background_home_1.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    animation-name: background;
+    animation-duration: 30s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    transition: 1s ease-in-out background-image;
+    overflow-x: hidden;
+}
+
+@keyframes background {
+    0% {
+        background-image: url(../assets/images/background_home_1.jpg);
+    }
+    25% {
+        background-image: url(../assets/images/background_home_2.jpg);
+    }
+    50% {
+        background-image: url(../assets/images/background_home_3.jpg);
+    }
+    75% {
+        background-image: url(../assets/images/background_home_1.jpg);
+    }
+    100% {
+        background-image: url(../assets/images/background_home_2.jpg);
+    }
+}
+
+.logo-image{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 100;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+}
+
+@media screen and (min-width: 768px){
+    .logo-image{
+        width: 150px;
+        height: 150px;
+    }
+}
+
+.burger-menu{
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    z-index: 100;
+    cursor: pointer;
+}
+
+.burger-menu__line{
+    width: 50px;
+    height: 5px;
+    background-color: #fff;
+    margin: 5px 0;
+    transition: 0.4s;
+}
+
+.nav-list{  
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.575);
+    z-index: 10;
+    transition: 0.4s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-100%);
+}
+
+.nav-list__active{
+    transform: translateY(0);
+}
+
+.nav-list__item{
+    list-style: none;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.7rem;
+    color: #fff;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.nav-list__item:hover{
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.main-adoption{
+    background-image: url('../assets/images/background_adoption.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100vw;
+}
+
+.adoption-pets{
+    overflow-x: scroll;
+}
