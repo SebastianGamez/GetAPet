@@ -29,17 +29,17 @@
                 </div>
                 <!--options-->
                 <ul :class="render.showMenu? 'nav-list nav-list__active': 'nav-list'">
-                    <li class="nav-list__item">
+                    <li class="nav-list__item" @click="goToHome">
                         Inicio
                     </li>
-                    <li class="nav-list__item">
+                    <li class="nav-list__item" @click="goToAdoption">
                         Adoptar
                     </li>
-                    <li class="nav-list__item">
+                    <li class="nav-list__item" @click="goToGiveUpForAdoption">
                         Dar en adopción
                     </li>
-                    <li class="nav-list__item">
-                        Administrar
+                    <li class="nav-list__item" @click="goToAdmin" v-if="user.admin">
+                        Administrador
                     </li>
                 </ul>
             </nav>
@@ -108,6 +108,7 @@
                             padding: 20px;
                             cursor: pointer;
                         "
+                        @click="goToAdoption"
                     >
                         <img height=100 src="src/assets/icons/adoptar.png" alt="">
                         <h3><b>Adoptar</b></h3>
@@ -120,6 +121,7 @@
                             padding: 20px;
                             cursor: pointer;
                         "
+                        @click="goToGiveUpForAdoption"
                     >
                         <img height=100 src="src/assets/icons/adopcion.png" alt="">
                         <h3 class="text-center"><b>Dar en adopción</b></h3>
@@ -132,6 +134,7 @@
                             padding: 20px;
                             cursor: pointer;
                         "
+                        v-if="user.admin"
                     >
                         <img height=100 src="src/assets/icons/administrar.png" alt="">
                         <h3><b>Administrar</b></h3>
@@ -142,25 +145,25 @@
             <section 
                 class="main-adoption h-100 d-flex flex-column justify-content-center align-items-center" 
                 v-cloak
-                v-if="render.adoption"
+                v-if="!render.adoption"
             >
                 <h1>Adopta una mascota</h1>
                 <div class="adoption-pets d-flex flex-row justify-content-center align-items-center bg-light rounded">
-                    <div>
+                    <div v-for="pet in pets">
                         <div class="container py-2">
-                            <img class="rounded" src="./src/assets/images/dog_1.jpg" alt="dog" width="250">
+                            <img style="background-size: cover;" class="rounded" :src="`src/assets/images/${pet.image}`" alt="dog" width="250" height="250">
                         </div>
                         <div class="container">
-                            <p><b>Nombre:</b>{{name}}</p>
-                            <p><b>Especie:</b>{{especie}}</p>
-                            <p><b>Raza:</b>{{race}}</p>
-                            <p><b>Edad:</b>{{age}}</p>
-                            <p><b>Sexo:</b>{{sex}}</p>
-                            <p><b>Color:</b>{{color}}</p>
-                            <p><b>Descripción:</b>{{description}}</p>
+                            <p><b>Nombre:</b>{{pet.name}}</p>
+                            <p><b>Especie:</b>{{pet.type}}</p>
+                            <p><b>Raza:</b>{{pet.race}}</p>
+                            <p><b>Edad:</b>{{pet.age}}</p>
+                            <p><b>Sexo:</b>{{pet.sex}}</p>
+                            <p><b>Color:</b>{{pet.color}}</p>
+                            <p><b>Descripción:</b>{{pet.description}}</p>
                         </div>
                         <div class="container d-flex justify-content-center align-items-center my-3">
-                            <button class="btn btn-primary">Adoptar</button>
+                            <button class="btn btn-primary" @click="adoptPet(pet)" >Adoptar</button>
                         </div>
                     </div>
                 </div>
@@ -170,19 +173,25 @@
                 class="main-give-up-for-adoption h-100 d-flex flex-column justify-content-center align-items-center w-100" 
                 v-cloak
                 v-if="render.giveUpForAdoption"
+                style="
+                    background-image: url('./src/assets/images/background_giveUpForAdoption.jpg');
+                    background-position: center; 
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                "
             >
                 <h1>Dar en adopción una mascota</h1>
                 <div class="give-up-for-adoption-pets d-flex flex-row justify-content-center align-items-center bg-light rounded w-100">
-                    <form class="container w-100 d-flex flex-row flex-wrap justify-content-center align-items-center">
+                    <div class="container w-100 d-flex flex-row flex-wrap justify-content-center align-items-center">
                         <!--Name-->
                         <div class="container w-25">
                             <label for="name">Nombre:</label>
-                            <input type="text" id="name" placeholder="Nombre" class="form-control">
+                            <input type="text" id="name" placeholder="Nombre" class="form-control" v-model="name">
                         </div>
                         <!--Type-->
                         <div class="container w-25">
                             <label for="especie">Especie:</label>
-                            <select id="especie" class="form-select">
+                            <select id="especie" class="form-select" v-model="type">
                                 <option disabled selected>Especie</option>
                                 <option value="perro">Perro</option>
                                 <option value="gato">Gato</option>
@@ -191,17 +200,17 @@
                         <!--Race-->
                         <div class="container w-25">
                             <label for="race" class="form-label">Raza:</label>
-                            <input type="text" id="race" placeholder="Raza" class="form-control">
+                            <input type="text" id="race" placeholder="Raza" class="form-control" v-model="race">
                         </div>
                         <!--Age-->
                         <div class="container w-25">
                             <label for="age" class="form-label">Edad:</label>
-                            <input type="number" id="age" placeholder="Edad" class="form-control">
+                            <input type="number" id="age" placeholder="Edad" class="form-control" v-model="age">
                         </div>
                         <!--Sex-->
                         <div class="container w-25">
                             <label for="sex" class="form-label">Sexo:</label>
-                            <select id="sex" class="form-select">
+                            <select id="sex" class="form-select" v-model="sex">
                                 <option disabled selected>Sexo</option>
                                 <option value="perro">Masculino</option>
                                 <option value="gato">Femenino</option>
@@ -210,55 +219,55 @@
                         <!--Color-->
                         <div class="container w-25">
                             <label for="color" class="form-label">Color:</label>
-                            <input type="text" id="color" placeholder="Color" class="form-control">
+                            <input type="text" id="color" placeholder="Color" class="form-control" v-model="color">
                         </div>
                         <!--Description-->
                         <div class="container w-25">
                             <label for="description" class="form-label">Descripción:</label>
-                            <textarea id="description" placeholder="Descripción" class="form-control"></textarea>
+                            <textarea id="description" placeholder="Descripción" class="form-control" v-model="description"></textarea>
                         </div>
                         <!--Image-->
                         <div class="container w-25">
                             <label for="image" class="form-label mx-2">Imagen:</label>
-                            <input type="button" id="image" value="Seleccionar" class="btn btn-primary">
+                            <input type="button" id="image" value="Seleccionar" class="btn btn-primary" @click="openSelectImage">
                         </div>
                         <!--Submit-->
                         <div class="container w-100 d-flex justify-content-center align-items-center my-3">
-                            <input type="submit" value="Enviar" class="btn btn-primary">
+                            <input type="submit" value="Enviar" class="btn btn-primary" @click="addPetToAdoption">
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <!--Chose the picture-->
-                <div class="chose-dog container d-flex justify-content-center align-items-center" v-if="false">
+                <div class="chose-dog container d-flex justify-content-center align-items-center" v-if="render.isDog">
                     <div class="dogs d-flex flex-row flex-wrap justify-content-center align-items-center">
                         <div class="container w-50 h-50 d-flex justify-content-center align-items-center">
-                            <img src="./src/assets/images/dog_1.jpg" alt="dog" class="dog-picture rounded">
+                            <img src="./src/assets/images/dog_1.jpg" alt="dog" class="dog-picture rounded" @click="selectImage('dog_1.jpg')" >
                         </div>
                         <div class="container w-50 h-50 d-flex justify-content-center align-items-center">
-                            <img src="./src/assets/images/dog_2.jpg" alt="dog" class="dog-picture rounded">
+                            <img src="./src/assets/images/dog_2.jpg" alt="dog" class="dog-picture rounded" @click="selectImage('dog_2.jpg')" >
                         </div>
                         <div class="container w-50 h-50 d-flex justify-content-center align-items-center">
-                            <img src="./src/assets/images/dog_3.jpg" alt="dog" class="dog-picture rounded">
+                            <img src="./src/assets/images/dog_3.jpg" alt="dog" class="dog-picture rounded" @click="selectImage('dog_3.jpg')" >
                         </div>
                         <div class="container w-50 h-50 d-flex justify-content-center align-items-center">
-                            <img src="./src/assets/images/dog_4.jpg" alt="dog" class="dog-picture rounded">
+                            <img src="./src/assets/images/dog_4.jpg" alt="dog" class="dog-picture rounded" @click="selectImage('dog_4.jpg')" >
                         </div>
                     </div>
                 </div>
                 <!--Chose pictures (cats)-->
-                <div class="chose-dog container d-flex justify-content-center align-items-center" v-if="false" >
+                <div class="chose-dog container d-flex justify-content-center align-items-center" v-if="render.isCat" >
                     <div class="dogs d-flex flex-row flex-wrap justify-content-center align-items-center">
                         <div class="container w-50 h-50 d-flex justify-content-center align-items-center">
-                            <img src="./src/assets/images/cat_1.jpg" alt="dog" class="dog-picture rounded">
+                            <img src="./src/assets/images/cat_1.jpg" alt="dog" class="dog-picture rounded" @click="selectImage('cat_1.jpg')" >
                         </div>
                         <div class="container w-50 h-50 d-flex justify-content-center align-items-center">
-                            <img src="./src/assets/images/cat_2.jpeg" alt="dog" class="dog-picture rounded">
+                            <img src="./src/assets/images/cat_2.jpeg" alt="dog" class="dog-picture rounded" @click="selectImage('cat_2.jpeg')" >
                         </div>
                         <div class="container w-50 h-50 d-flex justify-content-center align-items-center">
-                            <img src="./src/assets/images/cat_3.jpg" alt="dog" class="dog-picture rounded">
+                            <img src="./src/assets/images/cat_3.jpg" alt="dog" class="dog-picture rounded" @click="selectImage('cat_3.jpg')" >
                         </div>
                         <div class="container w-50 h-50 d-flex justify-content-center align-items-center">
-                            <img src="./src/assets/images/cat_4.jpeg" alt="dog" class="dog-picture rounded">
+                            <img src="./src/assets/images/cat_4.jpeg" alt="dog" class="dog-picture rounded" @click="selectImage('cat_4.jpeg')" >
                         </div>
                     </div>
                 </div>
@@ -277,6 +286,10 @@
     <script src="src/methods/loginMethods.js"></script>
     <!--Home methods-->
     <script src="src/methods/homeMethods.js"></script>
+    <!--Adoption methods-->
+    <script src="src/methods/adoptionMethods.js"></script>
+    <!--Give up for adoption methods-->
+    <script src="src/methods/giveUpForAdoptionMethods.js"></script>
     <!--Main file-->
     <script src="src/main.js"></script>
 </html>

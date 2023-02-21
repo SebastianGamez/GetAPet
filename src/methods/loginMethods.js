@@ -19,7 +19,7 @@ const loginMethods = {
         // Create admin
         this.createAdmin();
         // Log the users
-        console.log(this.users);
+        this.printCredentials();
         // Update localStorage
         this.updateLocalStorage();
     },

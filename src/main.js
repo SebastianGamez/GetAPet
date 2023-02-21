@@ -21,6 +21,10 @@ const app = createApp({
                 adoption: false,
                 // give up for adoption
                 giveUpForAdoption: false,
+                // Is dog
+                isDog: false,
+                // Is cat
+                isCat: false,
             },
             /*LOGIN PROPERTIES*/
             // Users
@@ -30,7 +34,18 @@ const app = createApp({
             // Username input
             username: '',
             // Password input
-            password: ''
+            password: '',
+            /*GIVE UP FOR ADOPTION PROPERTIES*/
+            // Pets
+            pets: [],
+            // Inputs
+            name: '',
+            type: '',
+            race: '',
+            color: '',
+            image: '',
+            age: '',
+            description: ''
         }
     },
     // Mounted
@@ -39,19 +54,25 @@ const app = createApp({
         if(localStorage.getItem('data')) {
             // If the data exists set the users at users property
             this.updateUsers();
+            // Print credentials
+            this.printCredentials();
         } else {
             // Get the users
             this.getUsers();
         }
-        // Print credentials
-        this.printCredentials();
+        // Update pets
+        this.updatePets();
     },
     // Methods
     methods: {
         // Login methods
         ...loginMethods,
         // Home methods
-        ...homeMethods
+        ...homeMethods,
+        // Adoption methods
+        ...adoptionMethods,
+        // Give up for adoption methods
+        ...giveUpForAdoptionMethods
     }
 });
 
