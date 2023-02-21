@@ -18,7 +18,9 @@ const app = createApp({
                 // Users
                 home: false,
                 // Adoption
-                adoption: false
+                adoption: false,
+                // give up for adoption
+                giveUpForAdoption: false,
             },
             /*LOGIN PROPERTIES*/
             // Users

@@ -120,3 +120,24 @@
 .adoption-pets{
     overflow-x: scroll;
 }
+
+.chose-dog{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.dogs{
+    height: 500px;
+    width: 500px;
+    padding: 25px;
+    background-color: rgba(0, 0, 0, 0.575);
+    border-radius: 8px;
+}
+
+.dog-picture{
+    width:  200px;
+    height: 200px;
+    object-fit: cover;
+    cursor: pointer;
+}
