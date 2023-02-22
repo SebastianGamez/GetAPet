@@ -8,7 +8,5 @@ const adoptionMethods ={
         this.savePetAtLocalStorage();
         // Show a success message
         swal('Éxito', 'Mascota adoptada con éxito', 'success');
-        // Delete the pet
-        this.pets.splice(index, 1);
     }
 }

@@ -118,6 +118,8 @@
 }
 
 .adoption-pets{
+    background-color: rgba(255, 255, 255, 0.527);
+    width: 75%;
     overflow-x: scroll;
 }
 
@@ -140,4 +142,13 @@
     height: 200px;
     object-fit: cover;
     cursor: pointer;
+}
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }

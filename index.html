@@ -16,7 +16,7 @@
         <!--Content-->
         <main id="app" class="bg-dark" style="height:100vh; width: 100vw">
              <!--Navbar-->
-             <nav v-if="!render.login">
+             <nav v-if="!render.login" v-cloak>
                 <!--Logo-->
                 <div class="nav-logo">
                     <img class="logo-image" src="src/assets/icons/logo.png" alt="Logo">
@@ -38,7 +38,7 @@
                     <li class="nav-list__item" @click="goToGiveUpForAdoption">
                         Dar en adopción
                     </li>
-                    <li class="nav-list__item" @click="goToAdmin" v-if="user.admin">
+                    <li class="nav-list__item" @click="goToAdmin" v-if="user.admin" v-cloak>
                         Administrador
                     </li>
                 </ul>
@@ -135,6 +135,8 @@
                             cursor: pointer;
                         "
                         v-if="user.admin"
+                        @click="goToAdmin"
+                        v-cloak
                     >
                         <img height=100 src="src/assets/icons/administrar.png" alt="">
                         <h3><b>Administrar</b></h3>
@@ -145,13 +147,13 @@
             <section 
                 class="main-adoption h-100 d-flex flex-column justify-content-center align-items-center" 
                 v-cloak
-                v-if="!render.adoption"
+                v-if="render.adoption"
             >
                 <h1>Adopta una mascota</h1>
-                <div class="adoption-pets d-flex flex-row justify-content-center align-items-center bg-light rounded">
-                    <div v-for="pet in pets">
-                        <div class="container py-2">
-                            <img style="background-size: cover;" class="rounded" :src="`src/assets/images/${pet.image}`" alt="dog" width="250" height="250">
+                <div class="adoption-pets d-flex flex-row justify-content-center align-items-center rounded">
+                    <div v-for="pet in pets" class="mx-2 border d-flex flex-column justify-content-center align-items-center bg-light rounded">
+                        <div class="container py-2 d-flex justify-content-center align-items-center">
+                            <img style="background-size: cover;" class="rounded" :src="`src/assets/images/${pet.image}`" alt="dog" width="150" height="150">
                         </div>
                         <div class="container">
                             <p><b>Nombre:</b>{{pet.name}}</p>
@@ -163,7 +165,7 @@
                             <p><b>Descripción:</b>{{pet.description}}</p>
                         </div>
                         <div class="container d-flex justify-content-center align-items-center my-3">
-                            <button class="btn btn-primary" @click="adoptPet(pet)" >Adoptar</button>
+                            <button class="btn btn-primary" @click="adoptPet(pet)" :disabled="pet.adopted?true:false">{{pet.adopted?'Adoptado':'Adoptar'}}</button>
                         </div>
                     </div>
                 </div>
@@ -180,8 +182,8 @@
                     background-size: cover;
                 "
             >
-                <h1>Dar en adopción una mascota</h1>
-                <div class="give-up-for-adoption-pets d-flex flex-row justify-content-center align-items-center bg-light rounded w-100">
+                <h1 class="bg-dark text-light rounded">Dar en adopción una mascota</h1>
+                <div class="give-up-for-adoption-pets d-flex flex-row justify-content-center align-items-center bg-light rounded w-75 p-5">
                     <div class="container w-100 d-flex flex-row flex-wrap justify-content-center align-items-center">
                         <!--Name-->
                         <div class="container w-25">
@@ -205,7 +207,7 @@
                         <!--Age-->
                         <div class="container w-25">
                             <label for="age" class="form-label">Edad:</label>
-                            <input type="number" id="age" placeholder="Edad" class="form-control" v-model="age">
+                            <input type="number" id="age" placeholder="Edad en años" class="form-control" v-model="age">
                         </div>
                         <!--Sex-->
                         <div class="container w-25">
@@ -238,7 +240,7 @@
                     </div>
                 </div>
                 <!--Chose the picture-->
-                <div class="chose-dog container d-flex justify-content-center align-items-center" v-if="render.isDog">
+                <div class="chose-dog container d-flex justify-content-center align-items-center" v-if="render.isDog" v-cloak>
                     <div class="dogs d-flex flex-row flex-wrap justify-content-center align-items-center">
                         <div class="container w-50 h-50 d-flex justify-content-center align-items-center">
                             <img src="./src/assets/images/dog_1.jpg" alt="dog" class="dog-picture rounded" @click="selectImage('dog_1.jpg')" >
@@ -255,7 +257,7 @@
                     </div>
                 </div>
                 <!--Chose pictures (cats)-->
-                <div class="chose-dog container d-flex justify-content-center align-items-center" v-if="render.isCat" >
+                <div class="chose-dog container d-flex justify-content-center align-items-center" v-if="render.isCat" v-cloak>
                     <div class="dogs d-flex flex-row flex-wrap justify-content-center align-items-center">
                         <div class="container w-50 h-50 d-flex justify-content-center align-items-center">
                             <img src="./src/assets/images/cat_1.jpg" alt="dog" class="dog-picture rounded" @click="selectImage('cat_1.jpg')" >
@@ -272,7 +274,42 @@
                     </div>
                 </div>
             </section>
-
+            <!--Administrator-->
+            <section class="h-100 w-100 bg-dark d-flex flex-column justify-content-center align-items-center" v-if="render.admin" v-cloak>
+                <h1 class="text-light">Información de las mascotas:</h1>
+                <div class="container">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-light"><b>Nombre</b></th>
+                                <th class="text-light"><b>Especie</b></th>
+                                <th class="text-light"><b>Raza</b></th>
+                                <th class="text-light"><b>Sexo</b></th>
+                                <th class="text-light"><b>Edad</b></th>
+                                <th class="text-light"><b>Color</b></th>
+                                <th class="text-light"><b>Adoptado</b></th>
+                                <th class="text-light"><b>Descripción</b></th>
+                            </tr>
+                        </thead>
+                        <tbody v-for="pet in pets">
+                            <tr>
+                                <th class="text-light">{{pet.name}}</th>
+                                <th class="text-light">{{pet.type}}</th>
+                                <th class="text-light">{{pet.race}}</th>
+                                <th class="text-light">{{pet.sex}}</th>
+                                <th class="text-light">{{pet.age}} años</th>
+                                <th class="text-light">{{pet.color}}</th>
+                                <th class="text-light">{{pet.adopted}}</th>
+                                <th class="text-light">{{pet.description}}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <!--Footer-->
+            <footer class="footer p-2" v-if="!render.login" v-cloak>
+                <button class="btn btn-danger m-2" @click="logout">Salir</button>
+            </footer>
         </main>
     </body>
     <!--Swal-->
@@ -282,6 +319,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
     <!--Vue-->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!--Data-->
+    <script src="src/data/petsData.js"></script>
     <!--Login methods-->
     <script src="src/methods/loginMethods.js"></script>
     <!--Home methods-->

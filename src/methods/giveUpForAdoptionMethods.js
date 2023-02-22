@@ -68,7 +68,11 @@ const giveUpForAdoptionMethods = {
         // Check if the data exists
         if(localStorage.getItem('pets')){
             // If the data exists set the pets at pets property if the pet is not adopted
-            this.pets = JSON.parse(localStorage.getItem('pets')).filter(pet => pet.adopted === false);
+            this.pets = JSON.parse(localStorage.getItem('pets'));
+        } else {
+            // If the data doesn't exists set the pets at pets property
+            this.pets = petsData;
+            this.savePetAtLocalStorage();
         }
     }
 

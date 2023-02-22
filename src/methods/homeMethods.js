@@ -56,5 +56,22 @@ const homeMethods = {
             admin: false,
         }
     },
+    // Go to admin
+    goToAdmin(){
+        this.render = {
+            // Login
+            login: false,
+            // give up for adoption
+            giveUpForAdoption: false,
+            // Show menu
+            showMenu: false,
+            // Users
+            home: false,
+            // Adoption
+            adoption: false,
+            // Admin
+            admin: true,
+        }
+    }
 
 }
