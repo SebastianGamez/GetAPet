@@ -38,6 +38,8 @@ const app = createApp({
             /*GIVE UP FOR ADOPTION PROPERTIES*/
             // Pets
             pets: [],
+            // Pets no adopted
+            petsNoAdopted: [],
             // Inputs
             name: '',
             type: '',
@@ -62,6 +64,22 @@ const app = createApp({
         }
         // Update pets
         this.updatePets();
+    },
+    // Watch
+    watch: {
+        // Watch the pets
+        pets: {
+            // Handler
+            handler: function () {
+                // Save the data
+                this.petsNoAdopted = this.pets.filter(pet => pet.adopted === false);
+            },
+            // Deep
+            deep: true,
+            // Immediate
+            immediate: true
+        }
+
     },
     // Methods
     methods: {

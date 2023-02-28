@@ -1,7 +1,7 @@
 const petsData = [
     {
         name: 'Daisy',
-        sex: 'femenino',
+        sex: 'hembra',
         race: 'Cocker',
         type: 'perro',
         age: '2',
@@ -12,7 +12,7 @@ const petsData = [
     },
     {
         name: 'Apolo',
-        sex: 'masculino',
+        sex: 'macho',
         race: 'Golden',
         type: 'perro',
         age: '2',
@@ -23,7 +23,7 @@ const petsData = [
     },
     {
         name: 'Mimi',
-        sex: 'femenino',
+        sex: 'hembra',
         race: 'Criollo',
         type: 'gato',
         age: '2',
@@ -34,7 +34,7 @@ const petsData = [
     },
     {
         name: 'Rex',
-        sex: 'masculino',
+        sex: 'macho',
         race: 'Criollo',
         type: 'gato',
         age: '2',

@@ -151,7 +151,7 @@
             >
                 <h1>Adopta una mascota</h1>
                 <div class="adoption-pets d-flex flex-row justify-content-center align-items-center rounded">
-                    <div v-for="pet in pets" class="mx-2 border d-flex flex-column justify-content-center align-items-center bg-light rounded">
+                    <div v-for="pet in petsNoAdopted" class="mx-2 border d-flex flex-column justify-content-center align-items-center bg-light rounded">
                         <div class="container py-2 d-flex justify-content-center align-items-center">
                             <img style="background-size: cover;" class="rounded" :src="`src/assets/images/${pet.image}`" alt="dog" width="150" height="150">
                         </div>
@@ -214,8 +214,8 @@
                             <label for="sex" class="form-label">Sexo:</label>
                             <select id="sex" class="form-select" v-model="sex">
                                 <option disabled selected>Sexo</option>
-                                <option value="perro">Masculino</option>
-                                <option value="gato">Femenino</option>
+                                <option value="Macho">Macho</option>
+                                <option value="Hembra">Hembra</option>
                             </select>
                         </div>
                         <!--Color-->
@@ -299,7 +299,7 @@
                                 <th class="text-light">{{pet.sex}}</th>
                                 <th class="text-light">{{pet.age}} años</th>
                                 <th class="text-light">{{pet.color}}</th>
-                                <th class="text-light">{{pet.adopted}}</th>
+                                <th class="text-light">{{getAdoptPetStatus(pet)}}</th>
                                 <th class="text-light">{{pet.description}}</th>
                             </tr>
                         </tbody>
